@@ -30,8 +30,12 @@ class Dynatable {
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function make()
 	{
-		return (string) $this->query;
+		return json_encode([
+			"records" => (string) $this->query,
+			"queryRecordCount" => $this->query->count(),
+			"totalRecordCount" => $this->query->count()
+		]);
 	}
 }
