@@ -11,6 +11,7 @@ class Dynatable {
 	protected $options;
 
 	protected $columns;
+	protected $sorts;
 	protected $search;
 
 	/**
@@ -20,22 +21,6 @@ class Dynatable {
 	{
 		$this->query = $query;
 
-		// Define initial columns by params
-		foreach($columns as $name) {
-			$this->columns[$name] = function($row) use ($name) {
-				return $row->$name;
-			};
-		}
-
-		// Define default search engine
-		$this->search = function($query, $term) {
-			foreach($this->columns as $name => $handler) {
-				$query->orWhere($name, 'LIKE', '%' . $this->options['search'] . '%');
-			}
-
-			return $query;
-		};
-
 		$this->options = [
 			'page-length' => (int) $inputs['perPage'],
 			'page-number' => (int) $inputs['page'],
@@ -43,6 +28,34 @@ class Dynatable {
 			'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
 			'search' => isset($inputs['search']) ? $inputs['search'] : null,
 		];
+
+		$this->setDefaultHandlers($columns);
+	}
+
+	protected function setDefaultHandlers($columns)
+	{
+		// Define default handler for rendering content of column
+		foreach($columns as $name) {
+			$this->columns[$name] = function($row) use ($name) {
+				return $row->$name;
+			};
+		}
+
+		// Define default handler for ordering column
+		foreach($columns as $name) {
+			$this->sorts[$name] = function($query, $mode) use ($name) {
+				return $query->orderBy($name, $mode);
+			};
+		}
+
+		// Define default handler for global searching
+		$this->search = function($query, $term) {
+			foreach($this->columns as $name => $handler) {
+				$query->orWhere($name, 'LIKE', '%' . $this->options['search'] . '%');
+			}
+
+			return $query;
+		};
 	}
 
 	/**
@@ -61,6 +74,21 @@ class Dynatable {
 	}
 
 	/**
+	 * Define custom sort handler for the defined column
+	 *
+	 * @param $name
+	 * @param $handler
+	 *
+	 * @return $this
+	 */
+	public function sort($name, $handler)
+	{
+		$this->sorts[$name] = $handler;
+
+		return $this;
+	}
+
+	/**
 	 * Define the search handler for the table
 	 *
 	 * @param $handler
@@ -68,6 +96,8 @@ class Dynatable {
 	public function search($handler)
 	{
 		$this->search = $handler;
+
+		return $this;
 	}
 
 	/**
@@ -92,7 +122,7 @@ class Dynatable {
 			return false;
 
 		foreach($this->options['sorts'] as $name => $mode) {
-			$this->query->orderBy($name, $mode == 1 ? 'asc' : 'desc');
+			$this->query = $this->sorts[$name]($this->query, $mode == 1 ? 'asc' : 'desc');
 		}
 	}
 
