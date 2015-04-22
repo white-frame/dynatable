@@ -26,7 +26,7 @@ class Dynatable {
 			'page-number' => (int) $inputs['page'],
 			'offset' => (int) $inputs['offset'],
 			'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
-			'search' => isset($inputs['search']) ? $inputs['search'] : null,
+			'search' => isset($inputs['queries']['search']) ? $inputs['queries']['search'] : null,
 		];
 
 		$this->setDefaultHandlers($columns);
@@ -49,10 +49,12 @@ class Dynatable {
 		}
 
 		// Define default handler for global searching
-		$this->search = function($query, $term) {
-			foreach($this->columns as $name => $handler) {
-				$query->orWhere($name, 'LIKE', '%' . $this->options['search'] . '%');
-			}
+		$this->search = function($query, $term) use ($columns) {
+			$query->where(function($query) use ($term, $columns) {
+				foreach($columns as $column) {
+					$query->orWhere($column, 'LIKE', '%' . $term . '%');
+				}
+			});
 
 			return $query;
 		};
