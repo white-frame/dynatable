@@ -166,8 +166,8 @@ class Dynatable {
 		// Apply the search filter
 		$this->handleSearch();
 
-		$datas['totalRecordCount'] = $this->query->get()->count();
-		$datas['queryRecordCount'] = $this->query->get()->count();
+		$datas['totalRecordCount'] = $this->query->count();
+		$datas['queryRecordCount'] = $this->query->count();
 
 		// Filter items by pagination
 		$this->handleSorting();
