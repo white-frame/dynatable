@@ -13,6 +13,8 @@ class Dynatable {
 	protected $columns;
 	protected $sorts;
 	protected $search;
+	protected $defaultColumnSearch;
+	protected $columnSearchs;
 
 	/**
 	 * @param $query
@@ -26,7 +28,7 @@ class Dynatable {
 			'page-number' => (int) $inputs['page'],
 			'offset' => (int) $inputs['offset'],
 			'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
-			'search' => isset($inputs['queries']['search']) ? $inputs['queries']['search'] : null,
+			'queries' => isset($inputs['queries']) ? $inputs['queries'] : [],
 		];
 
 		$this->setDefaultHandlers($columns);
@@ -58,6 +60,11 @@ class Dynatable {
 
 			return $query;
 		};
+
+        // Define default handlers for column searching
+        $this->defaultColumnSearch = function ($query, $column, $term) {
+            return $query->where($column, '=', $term);
+        };
 	}
 
 	/**
@@ -95,9 +102,15 @@ class Dynatable {
 	 *
 	 * @param $handler
 	 */
-	public function search($handler)
+	public function search()
 	{
-		$this->search = $handler;
+        $numargs = func_num_args();
+        if($numargs == 1) {
+            $this->search = func_get_arg(0);
+        }
+        elseif($numargs == 2) {
+            $this->columnSearchs[func_get_arg(0)] = func_get_arg(1);
+        }
 
 		return $this;
 	}
@@ -105,20 +118,38 @@ class Dynatable {
 	/**
 	 * @return bool
 	 */
-	public function handleSearch()
+    protected function handleSearch()
 	{
-		if(!isset($this->options['search']))
+		if(!isset($this->options['queries']['search']))
 			return false;
 
 		$handler = $this->search;
 
-		$this->query = $handler($this->query, $this->options['search']);
+		$this->query = $handler($this->query, $this->options['queries']['search']);
 	}
+
+    protected function handleColumnSearch()
+    {
+        foreach($this->options['queries'] as $column => $value) {
+
+            // Do not reuse search field witch is used for global searching
+            if($column == 'search') continue;
+
+            if(isset($this->columnSearchs[$column])) {
+                $handler = $this->columnSearchs[$column];
+                $this->query = $handler($this->query, $value);
+            }
+            else {
+                $handler = $this->defaultColumnSearch;
+                $this->query = $handler($this->query, $column, $value);
+            }
+        }
+    }
 
 	/**
 	 *
 	 */
-	public function handleSorting()
+    protected function handleSorting()
 	{
 		if(!isset($this->options['sorts']))
 			return false;
@@ -131,7 +162,7 @@ class Dynatable {
 	/**
 	 *
 	 */
-	public function handlePagination()
+    protected function handlePagination()
 	{
 		$this->query->skip($this->options['offset'])->take($this->options['page-length']);
 	}
@@ -165,9 +196,10 @@ class Dynatable {
 
 		// Apply the search filter
 		$this->handleSearch();
+        $this->handleColumnSearch();
 
-		$datas['totalRecordCount'] = $this->query->get()->count();
-		$datas['queryRecordCount'] = $this->query->get()->count();
+		$datas['totalRecordCount'] = $this->query->count();
+		$datas['queryRecordCount'] = $this->query->count();
 
 		// Filter items by pagination
 		$this->handleSorting();
@@ -177,4 +209,20 @@ class Dynatable {
 
 		return $datas;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function toSql()
+    {
+        // Apply the search filter
+        $this->handleSearch();
+        $this->handleColumnSearch();
+
+        // Filter items by pagination
+        $this->handleSorting();
+        $this->handlePagination();
+
+        return $this->query->toSql();
+    }
 }
