@@ -63,7 +63,7 @@ class Dynatable {
 
         // Define default handlers for column searching
         $this->defaultColumnSearch = function ($query, $column, $term) {
-            return $query->where($column, '=', $term);
+            return $query->where($column, 'LIKE', '%' . $term . '%');
         };
 	}
 
