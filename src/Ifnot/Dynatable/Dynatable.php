@@ -1,8 +1,5 @@
 <?php namespace Ifnot\Dynatable;
 
-use Ifnot\Dynatable\Table\Row;
-use Ifnot\Dynatable\Table\RowCollection;
-
 /**
  * Class Dynatable
  */
