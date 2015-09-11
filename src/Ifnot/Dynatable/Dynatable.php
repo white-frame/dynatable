@@ -19,17 +19,17 @@ class Dynatable {
 	/**
 	 * @param $query
 	 */
-	public function __construct($query, $columns = [], $inputs)
+	public function __construct($query, $columns = array(), $inputs)
 	{
 		$this->query = $query;
 
-		$this->options = [
+		$this->options = array(
 			'page-length' => (int) $inputs['perPage'],
 			'page-number' => (int) $inputs['page'],
 			'offset' => (int) $inputs['offset'],
 			'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
-			'queries' => isset($inputs['queries']) ? $inputs['queries'] : [],
-		];
+			'queries' => isset($inputs['queries']) ? $inputs['queries'] : array(),
+		);
 
 		$this->setDefaultHandlers($columns);
 	}
@@ -174,10 +174,10 @@ class Dynatable {
 	 */
 	protected function getRecords()
 	{
-		$records = [];
+		$records = array();
 
 		foreach($this->query->get() as $row) {
-			$record = [];
+			$record = array();
 			foreach($this->columns as $name => $handler) {
 				$record[$name] = $handler($row);
 			}
@@ -192,7 +192,7 @@ class Dynatable {
 	 */
 	public function make()
 	{
-		$datas = [];
+		$datas = array();
 
 		// Apply the search filter
 		$this->handleSearch();
