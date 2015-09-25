@@ -34,8 +34,13 @@ class UserController extends Controller
     $cars = Car::where('year', '=', 2007);
     $columns = ['id', 'name', 'price', 'stock'];
     
-    // Build dynatable response
-    return Dynatable::of($cars, $columns, $request->all())->make();
+    // Build dynatable response with your query builder, columns and all input from dynatable font end javascript
+    $dynatable = Dynatable::of($cars, $columns, $request->all()));
+    
+    // ... Here you can do what you want here on $dynatable
+    
+    // Build the response and return to the table
+    return $dynatable->make();
   }
 }
 ```
