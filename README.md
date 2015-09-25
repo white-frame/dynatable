@@ -60,14 +60,21 @@ $dynatable->column('actions', function($car) {
 });
 ```
 
-Handle global searching :
+Customize column sorting :
+```php
+$dynatable->sort('id', function($query, $mode) {
+    return $query->orderBy('id', $mode == 'asc');
+});
+```
+
+Customize global searching :
 ```php
 $dynatable->search(function($query, $term) {
     return $query->where('name', 'LIKE', '%' . $term . '%');
 });
 ```
 
-Handle specific column searching :
+Customize specific column searching :
 ```php
 $dynatable->search('year', function($query, $term) {
     return $query->whereBetween('year', array($term - 5, $term + 5));
