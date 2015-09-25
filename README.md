@@ -23,6 +23,8 @@ Register the service provider for the facade :
 
 ## Sample usage
 
+This is a light working example :
+
 ```php
 <?php
 class MyController {
