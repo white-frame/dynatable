@@ -30,14 +30,14 @@ use Ifnot\Dynatable\Dynatable;
 class UserController extends Controller
   public function dynatable(Request $request)
   {
-    // Get fluent collection of what you want to show in dynatable
+    // Get a query builder of what you want to show in dynatable
     $cars = Car::where('year', '=', 2007);
     $columns = ['id', 'name', 'price', 'stock'];
     
     // Build dynatable response with your query builder, columns and all input from dynatable font end javascript
     $dynatable = Dynatable::of($cars, $columns, $request->all()));
     
-    // ... Here you can do what you want here on $dynatable
+    // ... Here you can do what you want here on $dynatable (see example below)
     
     // Build the response and return to the table
     return $dynatable->make();
@@ -45,3 +45,31 @@ class UserController extends Controller
 }
 ```
 
+Change the content of a column :
+
+```php
+$dynatable->column('price', function($car) {
+    return number_format($car->price) . ' $';
+});
+```
+
+Add a new column for each row :
+```php
+$dynatable->column('actions', function($car) {
+    return '<a href="/car/' . $car->id . '">View</a>';
+});
+```
+
+Handle global searching :
+```php
+$dynatable->search(function($query, $term) {
+    return $query->where('name', 'LIKE', '%' . $term . '%');
+});
+```
+
+Handle specific column searching :
+```php
+$dynatable->search('year', function($query, $term) {
+    return $query->whereBetween('year', array($term - 5, $term + 5));
+});
+```
