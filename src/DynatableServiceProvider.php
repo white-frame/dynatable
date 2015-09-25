@@ -2,6 +2,10 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class DynatableServiceProvider
+ * @package Ifnot\Dynatable
+ */
 class DynatableServiceProvider extends ServiceProvider {
 
 	/**
@@ -11,15 +15,6 @@ class DynatableServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('ifnot/dynatable');
-	}
 
 	/**
 	 * Register the service provider.
@@ -28,7 +23,7 @@ class DynatableServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+        $this->app->bind('dynatable', 'Ifnot\Dynatable\Dynatable');
 	}
 
 	/**

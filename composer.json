@@ -1,6 +1,6 @@
 {
     "name": "ifnot/dynatable",
-    "description": "Very simple server-side Dynatable handler for Laravel 4",
+    "description": "Very simple server-side Dynatable handler for Laravel 5",
     "keywords": ["laravel", "dynatable"],
     "license": "WTFPL",
     "authors": [
@@ -10,11 +10,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.5.9"
     },
     "autoload": {
-        "psr-0": {
-            "Ifnot\\Dynatable\\": "src/"
+        "psr-4": {
+            "Ifnot\\Dynatable\\": "src"
         }
     },
     "minimum-stability": "stable"

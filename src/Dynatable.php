@@ -16,21 +16,24 @@ class Dynatable {
 	/**
 	 * @param $query
 	 */
-	public function __construct($query, $columns = array(), $inputs)
+	public function of($query, $columns = [], $inputs)
 	{
 		$this->query = $query;
 
-		$this->options = array(
+		$this->options = [
 			'page-length' => (int) $inputs['perPage'],
 			'page-number' => (int) $inputs['page'],
 			'offset' => (int) $inputs['offset'],
 			'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
-			'queries' => isset($inputs['queries']) ? $inputs['queries'] : array(),
-		);
+			'queries' => isset($inputs['queries']) ? $inputs['queries'] : [],
+		];
 
 		$this->setDefaultHandlers($columns);
 	}
 
+	/**
+	 * @param array $columns
+	 */
 	protected function setDefaultHandlers($columns)
 	{
 		// Define default handler for rendering content of column
@@ -67,8 +70,8 @@ class Dynatable {
 	/**
 	 * Define the display handler for the defined column
 	 *
-	 * @param $name
-	 * @param $handler
+	 * @param string $name
+	 * @param callable $handler
 	 *
 	 * @return $this
 	 */
@@ -82,8 +85,8 @@ class Dynatable {
 	/**
 	 * Define custom sort handler for the defined column
 	 *
-	 * @param $name
-	 * @param $handler
+	 * @param string $name
+	 * @param callable $handler
 	 *
 	 * @return $this
 	 */
@@ -97,7 +100,7 @@ class Dynatable {
 	/**
 	 * Define the search handler for the table
 	 *
-	 * @param $handler
+	 * @return $this
 	 */
 	public function search()
 	{
@@ -123,9 +126,14 @@ class Dynatable {
 		$handler = $this->search;
 
 		$this->query = $handler($this->query, $this->options['queries']['search']);
+
+		return true;
 	}
 
-    protected function handleColumnSearch()
+	/**
+	 * @return bool
+	 */
+	protected function handleColumnSearch()
     {
         foreach($this->options['queries'] as $column => $value) {
 
@@ -141,12 +149,14 @@ class Dynatable {
                 $this->query = $handler($this->query, $column, $value);
             }
         }
+
+	    return true;
     }
 
 	/**
-	 *
+	 * @return bool
 	 */
-    protected function handleSorting()
+	protected function handleSorting()
 	{
 		if(!isset($this->options['sorts']))
 			return false;
@@ -154,14 +164,18 @@ class Dynatable {
 		foreach($this->options['sorts'] as $name => $mode) {
 			$this->query = $this->sorts[$name]($this->query, $mode == 1 ? 'asc' : 'desc');
 		}
+
+		return true;
 	}
 
 	/**
-	 *
+	 * @return bool
 	 */
-    protected function handlePagination()
+	protected function handlePagination()
 	{
 		$this->query->skip($this->options['offset'])->take($this->options['page-length']);
+
+		return true;
 	}
 
 	/**
@@ -171,10 +185,10 @@ class Dynatable {
 	 */
 	protected function getRecords()
 	{
-		$records = array();
+		$records = [];
 
 		foreach($this->query->get() as $row) {
-			$record = array();
+			$record = [];
 			foreach($this->columns as $name => $handler) {
 				$record[$name] = $handler($row);
 			}
@@ -189,7 +203,7 @@ class Dynatable {
 	 */
 	public function make()
 	{
-		$datas = array();
+		$datas = [];
 
 		// Apply the search filter
 		$this->handleSearch();
@@ -208,7 +222,7 @@ class Dynatable {
 	}
 
     /**
-     * @return mixed
+     * @return string
      */
     public function toSql()
     {

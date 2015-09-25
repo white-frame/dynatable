@@ -7,10 +7,17 @@ With a simple API you can customize all handlings such as search, sort, column d
 
 # Installation
 
-## Laravel 4
-    composer require ifnot/dynatable:1.*
+## Laravel 5
 
-**Laravel 5 : see v2 branch**
+Install the package using composer :
+
+    composer require ifnot/dynatable:2.*
+
+Register the service provider for the facade :
+
+	Ifnot\Dynatable\DynatableServiceProvider::class
+
+**Laravel 4 : see v1 branch**
 
 # Usage
 
