@@ -15,8 +15,21 @@ class Dynatable {
 
 	/**
 	 * @param $query
+	 * @param array $columns
+	 * @param $inputs
+	 * @return Dynatable
 	 */
-	public function of($query, $columns = [], $inputs)
+	public static function of($query, $columns = [], $inputs)
+	{
+		return new Dynatable($query, $columns, $inputs);
+	}
+
+	/**
+	 * @param $query
+	 * @param array $columns
+	 * @param $inputs
+	 */
+	public function __construct($query, $columns = [], $inputs)
 	{
 		$this->query = $query;
 
