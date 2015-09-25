@@ -13,10 +13,6 @@ Install the package using composer :
 
     composer require ifnot/dynatable:2.*
 
-Register the service provider for the facade :
-
-	Ifnot\Dynatable\DynatableServiceProvider::class
-
 **Laravel 4 : see v1 branch**
 
 # Usage
@@ -27,15 +23,20 @@ This is a light working example :
 
 ```php
 <?php
-class MyController {
-  public function dynatable()
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Ifnot\Dynatable\Dynatable;
+
+class UserController extends Controller
+  public function dynatable(Request $request)
   {
     // Get fluent collection of what you want to show in dynatable
-    $cars = Car::all();
+    $cars = Car::where('year', '=', 2007);
     $columns = ['id', 'name', 'price', 'stock'];
     
     // Build dynatable response
-    return new Dynatable($cars, $columns, Input::all())->make();
+    return Dynatable::of($cars, $columns, $request->all())->make();
   }
 }
 ```
+
