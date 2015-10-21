@@ -1,5 +1,5 @@
 {
-    "name": "ifnot/dynatable",
+    "name": "white-frame/dynatable",
     "description": "Very simple server-side Dynatable handler for Laravel 5",
     "keywords": ["laravel", "dynatable"],
     "license": "WTFPL",
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ifnot\\Dynatable\\": "src"
+            "WhiteFrame\\Dynatable\\": "src"
         }
     },
     "minimum-stability": "stable"

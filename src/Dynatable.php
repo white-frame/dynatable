@@ -1,4 +1,4 @@
-<?php namespace Ifnot\Dynatable;
+<?php namespace WhiteFrame\Dynatable;
 
 /**
  * Class Dynatable
