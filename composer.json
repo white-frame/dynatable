@@ -15,7 +15,7 @@
   "require": {
     "php": ">=5.5.9",
     "illuminate/support": "5.1.*",
-    "white-frame/white-frame": "dev-master",
+    "white-frame/white-frame": "dev-master"
   },
   "autoload": {
     "psr-4": {
