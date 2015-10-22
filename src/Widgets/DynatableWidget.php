@@ -26,7 +26,7 @@ class DynatableWidget
             ]
         ], $attributes);
 
-        $this->slug = strtolower(class_basename($this->entity)) . '_' . strtolower(Str::random(6));
+        $this->slug = strtolower(str_replace('\\', '_', get_class($this->entity)));
 
         return $this;
     }
@@ -95,6 +95,6 @@ class DynatableWidget
      */
     public function getEndpoint()
     {
-        return url(trim($this->entity->getEndpoint(), '/'));
+        return url(trim($this->entity->getEndpoint(), '/')) . '?dynatable=true';
     }
 }
