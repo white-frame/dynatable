@@ -15,7 +15,7 @@
   "require": {
     "php": ">=5.5.9",
     "illuminate/support": "5.1.*",
-    "pingpong/widget": "~2.0"
+    "white-frame/white-frame": "dev-master",
   },
   "autoload": {
     "psr-4": {
