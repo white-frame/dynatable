@@ -15,28 +15,6 @@
     };
 
     $(document).ready(function () {
-        $('#{!! $dynatable->getTableId() !!}').dynatable(dynatableOptions_{!! $dynatable->getSlug() !!})
-                .on('dynatable:afterUpdate', function () {
-                    handleDynamicDom($('#{!! $dynatable->getTableId() !!}'));
-                });
-
-        var dynatableToolbar = '{!! $dynatable->getContainerId() !!}';
-
-        $(dynatableToolbar).find('input').on('keydown', function (ev) {
-            if (ev.which === 13) {
-                dynatableRefreshSearchFields('{!! $dynatable->getTableId() !!}', {!! json_encode($dynatable->getSearches()) !!});
-                return false;
-            }
-        });
-
-        $(dynatableToolbar).find('select').each(function(index) {
-            $(this).on("change", function (e) {
-                dynatableRefreshSearchFields('{!! $dynatable->getTableId() !!}', {!! json_encode($dynatable->getSearches()) !!});
-            });
-        });
-
-        $(dynatableToolbar).find('.dynatable-action-export').click(function() {
-            dynatableDownloadResults('{!! $dynatable->getTableId() !!}', $(this).attr('data-format'));
-        });
+        $('#{!! $dynatable->getTableId() !!}').dynatable(dynatableOptions_{!! $dynatable->getSlug() !!});
     });
 </script>
