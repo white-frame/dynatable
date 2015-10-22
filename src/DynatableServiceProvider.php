@@ -1,7 +1,7 @@
 <?php namespace WhiteFrame\Dynatable;
 
 use Illuminate\Support\ServiceProvider;
-use Pingpong\Widget\WidgetFacade as Widget;
+use Widget;
 
 /**
  * Class DynatableServiceProvider
@@ -24,10 +24,15 @@ class DynatableServiceProvider extends ServiceProvider
 
     }
 
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
     public function boot()
     {
-        // $widgets = $this->app->make('\Pingpong\Widget\Widget');
-        // $widgets->register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'white-frame-dynatable');
+
         Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
     }
 
