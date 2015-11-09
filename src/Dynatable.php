@@ -186,7 +186,7 @@ class Dynatable {
 	 */
 	protected function handlePagination()
 	{
-		$this->query->skip($this->options['offset'])->take($this->options['page-length']);
+		$this->query = $this->query->skip($this->options['offset'])->take($this->options['page-length']);
 
 		return true;
 	}

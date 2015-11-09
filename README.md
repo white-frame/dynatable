@@ -1,9 +1,9 @@
 # Dynatable
-Very simple server-side Dynatable handler for Laravel 4. It handle the ajax calls from a jquery dynatable plugin in the front end.
+Very simple server-side [Dynatable](http://www.dynatable.com/) handler for Laravel. It handle the ajax calls from the [dynatable jquery plugin](http://www.dynatable.com/) in the front end.
 
-Using this plugin you can use server-side (ajax) pagination, sorting, global search and specific search.
+Using this plugin you can use server-side (ajax) pagination, sorting, global search and specific search. With a simple API you can customize all handlings such as search, sort, column display.
 
-With a simple API you can customize all handlings such as search, sort, column display.
+**This package is part of WhiteFrame Framework. Features like Widget can be only used when installed from [white-frame/white-frame](https://github.com/white-frame/white-frame). See WhiteFrame Usage section.**
 
 # Installation
 
@@ -15,9 +15,7 @@ Install the package using composer :
 
 **Laravel 4 : see v1 branch**
 
-# Usage
-
-## Sample usage
+# General Usage
 
 This is a light working example :
 
@@ -80,3 +78,5 @@ $dynatable->search('year', function($query, $term) {
     return $query->whereBetween('year', array($term - 5, $term + 5));
 });
 ```
+
+# WhiteFrame Usage
