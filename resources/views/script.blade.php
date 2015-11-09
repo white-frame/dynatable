@@ -15,6 +15,10 @@
     };
 
     $(document).ready(function () {
-        $('#{!! $dynatable->getTableId() !!}').dynatable(dynatableOptions_{!! $dynatable->getSlug() !!});
+        $('#{!! $dynatable->getTableId() !!}')
+                .dynatable(dynatableOptions_{!! $dynatable->getSlug() !!})
+                .on('dynatable:afterUpdate', function () {
+                    $.jwf('dom').handle($('#{!! $dynatable->getTableId() !!}'))
+                });
     });
 </script>
