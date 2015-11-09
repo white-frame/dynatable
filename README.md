@@ -1,5 +1,5 @@
 # Dynatable
-Very simple server-side Dynatable handler for Laravel 4. It handle the ajax calls from a jquery dynatable plugin in the front end.
+Very simple server-side [Dynatable](http://www.dynatable.com/) handler for Laravel. It handle the ajax calls from the [dynatable jquery plugin](http://www.dynatable.com/) in the front end.
 
 Using this plugin you can use server-side (ajax) pagination, sorting, global search and specific search.
 
