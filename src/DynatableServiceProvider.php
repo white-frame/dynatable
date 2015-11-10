@@ -32,6 +32,7 @@ class DynatableServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'white-frame-dynatable');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'dynatable');
 
         Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
     }
