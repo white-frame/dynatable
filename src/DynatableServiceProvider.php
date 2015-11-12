@@ -1,6 +1,7 @@
 <?php namespace WhiteFrame\Dynatable;
 
 use Illuminate\Support\ServiceProvider;
+use WhiteFrame\WhiteFrame\WhiteFrame;
 use Widget;
 
 /**
@@ -34,7 +35,9 @@ class DynatableServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'white-frame-dynatable');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'dynatable');
 
-        Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
+        if(WhiteFrame::isLoaded()) {
+            Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
+        }
     }
 
     /**
