@@ -29,19 +29,21 @@ class UserController extends Controller
   public function dynatable(Request $request)
   {
     // Get a query builder of what you want to show in dynatable
-    $cars = Car::where('year', '=', 2007);
+    $cars = Car::where('year', '=', 2007); // or Car::query() for all cars
     $columns = ['id', 'name', 'price', 'stock'];
     
     // Build dynatable response with your query builder, columns and all input from dynatable font end javascript
     $dynatable = Dynatable::of($cars, $columns, $request->all()));
     
-    // ... Here you can do what you want here on $dynatable (see example below)
+    // ... Here you can customize the result and change columns handling with $dynatable (see example below)
     
     // Build the response and return to the table
     return $dynatable->make();
   }
 }
 ```
+
+## Customize columns handling
 
 Change the content of a column :
 
@@ -78,5 +80,14 @@ $dynatable->search('year', function($query, $term) {
     return $query->whereBetween('year', array($term - 5, $term + 5));
 });
 ```
+
+## The use of `Dynatable::of`
+
+The `Dynatable::of` static method require 3 parameters :
+
+  * The query builder you want to work with
+   * If you want to get an object query builder without doing any `where`, you can do `Car::query()`.
+  * An array containing columns to display
+  * The requests input (generally `$request->all()` is fine).
 
 # WhiteFrame Usage
