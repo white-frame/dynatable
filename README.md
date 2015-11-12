@@ -91,3 +91,5 @@ The `Dynatable::of` static method require 3 parameters :
   * The requests input (generally `$request->all()` is fine).
 
 # WhiteFrame Usage
+
+Work to do here ... :)
