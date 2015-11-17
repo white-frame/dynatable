@@ -1,7 +1,5 @@
 <?php namespace WhiteFrame\Dynatable\Widgets;
 
-use Illuminate\Support\Str;
-
 /**
  * Class DynatableWidget
  * @package WhiteFrame\Dynatable\Widgets
