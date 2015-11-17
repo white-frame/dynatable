@@ -223,7 +223,7 @@ class Dynatable {
         $this->handleColumnSearch();
 
 		$datas['totalRecordCount'] = $this->query->count();
-		$datas['queryRecordCount'] = $this->query->count();
+		$datas['queryRecordCount'] = $datas['totalRecordCount'];
 
 		// Filter items by pagination
 		$this->handleSorting();
