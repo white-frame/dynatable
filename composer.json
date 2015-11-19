@@ -15,12 +15,11 @@
   "require": {
     "php": ">=5.5.9",
     "illuminate/support": "5.1.*",
-    "white-frame/white-frame": "dev-master"
+    "white-frame/white-frame": "0.*"
   },
   "autoload": {
     "psr-4": {
       "WhiteFrame\\Dynatable\\": "src"
     }
-  },
-  "minimum-stability": "stable"
+  }
 }
