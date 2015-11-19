@@ -11,7 +11,7 @@ Using this plugin you can use server-side (ajax) pagination, sorting, global sea
 
 Install the package using composer :
 
-    composer require ifnot/dynatable:2.*
+    composer require white-frame/dynatable:2.*
 
 **Laravel 4 : see v1 branch**
 
@@ -23,7 +23,7 @@ This is a light working example :
 <?php
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Ifnot\Dynatable\Dynatable;
+use WhiteFrame\Dynatable\Dynatable;
 
 class UserController extends Controller
   public function dynatable(Request $request)
