@@ -8,7 +8,7 @@ With a simple API you can customize all handlings such as search, sort, column d
 # Installation
 
 ## Laravel 4
-    composer require ifnot/dynatable:1.*
+    composer require white-frame/dynatable:1.*
 
 **Laravel 5 : see v2 branch**
 
@@ -21,8 +21,8 @@ With a simple API you can customize all handlings such as search, sort, column d
 class MyController {
   public function dynatable()
   {
-    // Get fluent collection of what you want to show in dynatable
-    $cars = Car::all();
+    // Get a query builder of what you want to show in dynatable
+    $cars = Car::where('year', '=', 2007); // or Car::query() for all cars
     $columns = ['id', 'name', 'price', 'stock'];
     
     // Build dynatable response
@@ -30,3 +30,7 @@ class MyController {
   }
 }
 ```
+
+## Customize columns handling
+
+API is quite similar to the dev-master branch. Please take a look at the new revision of this document.
