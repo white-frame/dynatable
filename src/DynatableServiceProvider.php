@@ -34,8 +34,8 @@ class DynatableServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'white-frame-dynatable');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'dynatable');
-
-        if (WhiteFrame::isLoaded()) {
+        
+        if (wf()) {
             Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
         }
     }
