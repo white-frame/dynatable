@@ -1,6 +1,8 @@
 <?php namespace WhiteFrame\Dynatable;
 
 use Illuminate\Support\ServiceProvider;
+use WhiteFrame\Helloquent\Repository;
+use WhiteFrame\Support\Framework;
 use WhiteFrame\WhiteFrame\WhiteFrame;
 use Widget;
 
@@ -22,7 +24,7 @@ class DynatableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        Framework::registerPackage('dynatable');
     }
 
     /**
@@ -37,6 +39,15 @@ class DynatableServiceProvider extends ServiceProvider
         
         if (wf()) {
             Widget::register('dynatable', \WhiteFrame\Dynatable\Widgets\DynatableWidget::class);
+        }
+
+        $this->registerRepositoryMacros();
+    }
+
+    public function registerRepositoryMacros()
+    {
+        if(Framework::hasPackage('helloquent')) {
+            app()->make('WhiteFrame\Dynatable\Helloquent\RepositoryMacros')->register();
         }
     }
 
