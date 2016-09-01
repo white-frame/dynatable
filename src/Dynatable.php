@@ -7,6 +7,7 @@ class Dynatable
 {
     protected $query;
     protected $options;
+    protected $countQuery;
 
     protected $columns;
     protected $sorts;
@@ -20,9 +21,9 @@ class Dynatable
      * @param $inputs
      * @return Dynatable
      */
-    public static function of($query, $columns = [], $inputs)
+    public static function of($query, $columns = [], $inputs, $countQuery = null)
     {
-        return new Dynatable($query, $columns, $inputs);
+        return new Dynatable($query, $columns, $inputs, $countQuery);
     }
 
     /**
@@ -30,7 +31,7 @@ class Dynatable
      * @param array $columns
      * @param $inputs
      */
-    public function __construct($query, $columns = [], $inputs)
+    public function __construct($query, $columns = [], $inputs, $countQuery = null)
     {
         $this->query = $query;
 
@@ -41,6 +42,8 @@ class Dynatable
             'sorts' => isset($inputs['sorts']) ? $inputs['sorts'] : null,
             'queries' => isset($inputs['queries']) ? $inputs['queries'] : [],
         ];
+
+        $this->countQuery = $countQuery;
 
         $this->setDefaultHandlers($columns);
     }
@@ -225,7 +228,11 @@ class Dynatable
         $this->handleSearch();
         $this->handleColumnSearch();
 
-        $datas['totalRecordCount'] = $datas['queryRecordCount'] = $this->query->count();
+        if($this->countQuery) {
+            $datas['totalRecordCount'] = $datas['queryRecordCount'] = $this->countQuery->count();
+        } else {
+            $datas['totalRecordCount'] = $datas['queryRecordCount'] = $this->query->count();
+        }
 
         // Filter items by pagination
         $this->handleSorting();
