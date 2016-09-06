@@ -1,4 +1,7 @@
 # Dynatable
+
+**Deprecated : As the DynatableJs is no longer supported by the authors, this package is deprecated.**
+
 Very simple server-side [Dynatable](http://www.dynatable.com/) handler for Laravel. It handle the ajax calls from the [dynatable jquery plugin](http://www.dynatable.com/) in the front end.
 
 Using this plugin you can use server-side (ajax) pagination, sorting, global search and specific search. With a simple API you can customize all handlings such as search, sort, column display.
