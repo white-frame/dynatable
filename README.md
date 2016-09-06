@@ -1,6 +1,6 @@
-# Dynatable
-
 **Deprecated : As the DynatableJs is no longer supported by the authors, this package is deprecated.**
+
+# Dynatable
 
 Very simple server-side [Dynatable](http://www.dynatable.com/) handler for Laravel. It handle the ajax calls from the [dynatable jquery plugin](http://www.dynatable.com/) in the front end.
 
